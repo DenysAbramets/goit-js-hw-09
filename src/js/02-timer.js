@@ -14,19 +14,24 @@ const secondEl = document.querySelector('[data-seconds]');
 
 
 const timer = {
-     currentDate: Date.now(),
-       dateValidation(){
-        if (this.data > this.currentDate) {
+           
+  dateValidation(){
+        if (timer.data >= new Date()) {
             startBtn.disabled = false;
+            console.log(new Date())
+            console.log(timer.data)
         }
         else{
             Notiflix.Report.warning('Please choose a date in the future');
+            console.log(new Date())
+            console.log(timer.data)
+
         };
        },
 
     onStartTimer (){
         const timerId = setInterval(() => {
-            const  timeDifference =  this.data - Date.now();
+            const  timeDifference =  this.data - new Date();
         console.log(timeDifference);
         if (timeDifference >= 0) {
             const { days, hours, minutes, seconds } = convertMs(timeDifference);
@@ -55,8 +60,9 @@ const options = {
     defaultDate: new Date(),
     minuteIncrement: 1,
     onClose(selectedDates) {
+      console.log(selectedDates);
     timer.dateValidation.call(timer); 
-    timer.data = selectedDates[0].getTime();
+    timer.data = selectedDates;
       
       
     },
