@@ -3,7 +3,6 @@ import "flatpickr/dist/flatpickr.min.css";
 import Notiflix from 'notiflix';
 import 'notiflix/dist/notiflix-3.2.6.min.css';
 
-
 const inputFlatpick =document.querySelector('#datetime-picker');
 const startBtn = document.querySelector('[data-start]');
 startBtn.disabled = true;
@@ -14,24 +13,10 @@ const secondEl = document.querySelector('[data-seconds]');
 
 
 const timer = {
-           
-  dateValidation(){
-        if (timer.data >= new Date()) {
-            startBtn.disabled = false;
-            console.log(new Date())
-            console.log(timer.data)
-        }
-        else{
-            Notiflix.Report.warning('Please choose a date in the future');
-            console.log(new Date())
-            console.log(timer.data)
-
-        };
-       },
 
     onStartTimer (){
         const timerId = setInterval(() => {
-            const  timeDifference =  this.data - new Date();
+            const  timeDifference =  timer.selectedData - new Date();
         console.log(timeDifference);
         if (timeDifference >= 0) {
             const { days, hours, minutes, seconds } = convertMs(timeDifference);
@@ -60,11 +45,15 @@ const options = {
     defaultDate: new Date(),
     minuteIncrement: 1,
     onClose(selectedDates) {
-      console.log(selectedDates);
-    timer.dateValidation.call(timer); 
-    timer.data = selectedDates;
-      
-      
+      const myTime = new Date();
+      if(selectedDates[0] >= myTime){
+        startBtn.disabled = false;
+      }else{
+        Notiflix.Report.warning('Please choose a date in the future');
+      }
+    
+      timer.selectedData = selectedDates[0];
+
     },
     
   };
